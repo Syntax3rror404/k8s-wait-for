@@ -6,7 +6,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -73,7 +72,7 @@ func waitForJobsCompleted(clientset *kubernetes.Clientset, namespace, selector s
 			}
 			if allDone {
 				fmt.Println("Info: All Jobs are Completed!")
-				os.Exit(0)
+				return
 			}
 		}
 

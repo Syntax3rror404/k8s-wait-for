@@ -6,7 +6,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -84,7 +83,7 @@ func waitForPodsReady(clientset *kubernetes.Clientset, namespace, selector strin
 			if allReady {
 				fmt.Printf("==============================================\n")
 				fmt.Println("Info: All pods are ready!")
-				os.Exit(0)
+				return
 			}
 		}
 
