@@ -1,6 +1,8 @@
 # k8s-wait-for
 Go cli app to wait for kubernetes pod/jobs to come ready 
 
+Supports service account by default and if no one is found it's try to use /.kube/config
+
 Example how to use it:
 
 ```yaml
@@ -38,6 +40,21 @@ spec:
       - name: myapp
         image: ghcr.io/example/myapp:latest
         imagePullPolicy: Always
+```
+
+Example output while waiting for vault pods to be ready:
+```
+waitfor.exe pod -n vault -l app.kubernetes.io/instance=vault       
+Info: Namespace set by user: "vault"
+Info: Label set by user: "app.kubernetes.io/instance=vault"
+Info: Trying in-cluster config...
+Info: Error, falling back to kubeconfig...
+Waiting for Pods in namespace vault with selector 'app.kubernetes.io/instance=vault'...
+=== Fri, 19 Sep 2025 14:51:38 CEST ===========
+State: Pod vault-0 --> Ready: true
+State: Pod vault-1 --> Ready: true
+State: Pod vault-2 --> Ready: true
+==============================================
 ```
 
 See help command for more information:
