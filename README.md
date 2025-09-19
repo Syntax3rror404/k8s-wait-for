@@ -1,2 +1,71 @@
 # k8s-wait-for
 Go cli app to wait for kubernetes pod/jobs to come ready 
+
+Example how to use it:
+
+```yaml
+kind: StatefulSet
+metadata:
+  name: myapp
+  labels:
+    app: myapp
+    chart: example
+  annotations:
+    version: "0.1"
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+      chart: example
+  serviceName: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+        chart: example
+      annotations:
+        version: "0.2.17"
+    spec:
+      initContainers:
+        - name: wait-for-database
+          image: ghcr.io/syntax3rror404/k8s-wait-for:main
+          imagePullPolicy: Always
+          args:
+            - "job"
+            - "-n myapp"
+            - "-l app=database"
+      containers:
+      - name: myapp
+        image: ghcr.io/example/myapp:latest
+        imagePullPolicy: Always
+```
+
+See help command for more information:
+```
+waitfor.exe -h                                    
+This tool waits for kubernetes pods or jobs to be ready
+
+a common usecase is to use it as init container to wait for other pods to be ready before starting the main application.
+For example waiting for a database to be ready before starting the app to prevent errors.
+
+Example:
+  waitfor pod -n vault -l app.kubernetes.io/instance=vault
+  waitfor job -n snipeit -l job=generate-app-key
+
+Usage:
+  waitfor [command]
+
+Available Commands:
+  completion  Generate the autocompletion script for the specified shell
+  help        Help about any command
+  job         wait for a job to complete
+  pod         wait for a pod to be ready
+
+Flags:
+  -h, --help               help for waitfor
+  -l, --label string       Label to filter (required)
+  -n, --namespace string   Namespace to use (default "default")
+  -t, --timer int32        Wait time between checks (default 3)
+
+Use "waitfor [command] --help" for more information about a command.
+```
