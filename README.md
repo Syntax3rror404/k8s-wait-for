@@ -15,6 +15,7 @@ metadata:
   annotations:
     version: "0.1"
 spec:
+  serviceAccountName: waitfor
   selector:
     matchLabels:
       app: myapp
@@ -42,6 +43,32 @@ spec:
       - name: myapp
         image: ghcr.io/example/myapp:latest
         imagePullPolicy: Always
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: waitfor
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: waitfor-pod-reader
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: waitfor-pod-reader-binding
+subjects:
+  - kind: ServiceAccount
+    name: waitfor
+roleRef:
+  kind: Role
+  name: waitfor-pod-reader
+  apiGroup: rbac.authorization.k8s.io
 ```
 
 Example output while waiting for vault pods to be ready:
