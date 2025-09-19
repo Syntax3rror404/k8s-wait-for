@@ -10,13 +10,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up go
-      uses: actions/setup-go@v3
-
     - name: Build container image /w kaniko
       uses: aevea/action-kaniko@master
       with:
-        image: waitfor
-        tag: latest
+        tag: ${{ github.head_ref || github.ref_name }}
         registry: ghcr.io
         password: ${{secrets.CI_REGISTRY_PASSWORD}}
