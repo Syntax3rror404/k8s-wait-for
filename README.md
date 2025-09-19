@@ -34,8 +34,10 @@ spec:
           imagePullPolicy: Always
           args:
             - "job"
-            - "-n myapp"
-            - "-l app=database"
+            - "-n"
+            - "myapp"
+            - "-l"
+            - "app=database"
       containers:
       - name: myapp
         image: ghcr.io/example/myapp:latest
