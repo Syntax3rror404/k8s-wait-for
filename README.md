@@ -6,6 +6,12 @@ Supports service account by default and if no one is found it's try to use /.kub
 Example how to use it:
 
 ```yaml
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: waitfor
+---
 kind: StatefulSet
 metadata:
   name: myapp
@@ -43,11 +49,6 @@ spec:
       - name: myapp
         image: ghcr.io/example/myapp:latest
         imagePullPolicy: Always
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: waitfor
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
