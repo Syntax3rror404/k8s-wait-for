@@ -12,10 +12,10 @@ RUN go build -o waitfor
 FROM alpine:3.22.1
 
 # Create a non-root user "app" to run the application
-RUN addgroup -S app && adduser -S app -G app
+RUN addgroup -g 1000 app && adduser -u 1000 -G app -S app
 
 COPY --from=builder /app/waitfor /usr/local/bin/waitfor
 
-USER app
+USER 1000:1000
 
 ENTRYPOINT ["waitfor"]
