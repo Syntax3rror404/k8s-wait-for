@@ -22,15 +22,16 @@ var (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "waitfor",
-	Short: "This tool waits for kubernetes pods or jobs to be ready",
-	Long: `This tool waits for kubernetes pods or jobs to be ready
-	
+	Short: "This tool waits for kubernetes pods or jobs and SQL databases to be ready",
+	Long: `This tool waits for kubernetes pods or jobs and SQL databases to be ready
+
 a common usecase is to use it as init container to wait for other pods to be ready before starting the main application.
 For example waiting for a database to be ready before starting the app to prevent errors.
 
 Example:
   waitfor pod -n vault -l app.kubernetes.io/instance=vault
   waitfor job -n snipeit -l job=generate-app-key
+  waitfor sql -u root -p mysecretpassword -s mariadb.mydatabase.cluster.local -d mydb
 `,
 }
 

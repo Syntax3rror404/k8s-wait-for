@@ -18,7 +18,7 @@ import (
 var sqlCmd = &cobra.Command{
 	Use:   "sql",
 	Short: "Wait for SQL connection",
-	Long: `Wait for SQL connection until available
+	Long: `wait for SQL connection until available
 	
 Simple example:
   waitfor sql -u root -p mysecretpassword -s mariadb.mydatabase.cluster.local -d mydb
