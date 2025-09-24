@@ -33,6 +33,7 @@ Example, if you have a non-standard port, set it with -P, default is 3306:
 		server, _ := cmd.Flags().GetString("server")
 		port, _ := cmd.Flags().GetString("port")
 		database, _ := cmd.Flags().GetString("database")
+		retries, _ := cmd.Flags().GetInt("retries")
 
 		// check if required flags are set
 		if user == "" || password == "" || server == "" || database == "" {
@@ -43,7 +44,7 @@ Example, if you have a non-standard port, set it with -P, default is 3306:
 		dsn := user + ":" + password + "@tcp(" + server + ":" + port + ")/" + database
 
 		// Try to connect with db
-		db, err := waitForDB(dsn, 10, time.Second*time.Duration(timer))
+		db, err := waitForDB(dsn, retries, time.Second*time.Duration(timer))
 		if err != nil {
 			log.Fatalf("DB connection failed: %v", err)
 		}
@@ -60,6 +61,7 @@ func init() {
 	sqlCmd.Flags().StringP("server", "s", "", "Database server")
 	sqlCmd.Flags().StringP("port", "P", "3306", "Database port")
 	sqlCmd.Flags().StringP("database", "d", "", "Database name")
+	sqlCmd.Flags().IntP("retries", "r", 10, "Number of retries")
 }
 
 func waitForDB(dsn string, retries int, delay time.Duration) (*sql.DB, error) {
