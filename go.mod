@@ -3,6 +3,7 @@ module waitfor
 go 1.25.1
 
 require (
+	github.com/go-sql-driver/mysql v1.9.3
 	github.com/spf13/cobra v1.10.1
 	k8s.io/api v0.34.1
 	k8s.io/apimachinery v0.34.1
@@ -10,6 +11,7 @@ require (
 )
 
 require (
+	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/emicklei/go-restful/v3 v3.12.2 // indirect
 	github.com/fxamacker/cbor/v2 v2.9.0 // indirect
