@@ -1,5 +1,5 @@
 # k8s-wait-for
-Go cli app to wait for kubernetes pod/jobs to come ready 
+Go cli app to wait for kubernetes pod/jobs/sql to come ready 
 
 Supports service account by default and if no one is found it's try to use /.kube/config
 
@@ -90,7 +90,7 @@ State: Pod vault-2 --> Ready: true
 See help command for more information:
 ```
 waitfor.exe -h                                    
-This tool waits for kubernetes pods or jobs to be ready
+This tool waits for kubernetes pods or jobs and SQL databases to be ready
 
 a common usecase is to use it as init container to wait for other pods to be ready before starting the main application.
 For example waiting for a database to be ready before starting the app to prevent errors.
@@ -98,6 +98,7 @@ For example waiting for a database to be ready before starting the app to preven
 Example:
   waitfor pod -n vault -l app.kubernetes.io/instance=vault
   waitfor job -n snipeit -l job=generate-app-key
+  waitfor sql -u root -p mysecretpassword -s mariadb.mydatabase.cluster.local -d mydb
 
 Usage:
   waitfor [command]
@@ -107,6 +108,7 @@ Available Commands:
   help        Help about any command
   job         wait for a job to complete
   pod         wait for a pod to be ready
+  sql         wait for SQL connection
 
 Flags:
   -h, --help               help for waitfor
