@@ -37,7 +37,7 @@ spec:
     spec:
       initContainers:
         - name: wait-for-database
-          image: ghcr.io/syntax3rror404/k8s-wait-for@sha256:23805da229e0869cc32e6eca091812be7968bdda0b254377fe15b082043d4ef9 
+          image: ghcr.io/syntax3rror404/k8s-wait-for@sha256:423b4f9e940f158a9592539f29aa8a7c0d33f06165efe5da54d8bb7d760ffbc2 
           imagePullPolicy: Always
           args:
             - "job"
