@@ -1,6 +1,7 @@
 # Variables
 ARG ALPINE_VERSION=3.22
 ARG GOLANG_VERSION=1.25.1
+ARG USERID=65532
 
 FROM alpine:${ALPINE_VERSION} AS builder
 
@@ -20,12 +21,15 @@ RUN go build -o waitfor
 # Final-Stage ++++++++++++++++++++++++++++++++++++++++
 #
 FROM alpine:${ALPINE_VERSION}
+ARG USERID
 
 # Create a non-root user "app" to run the application
-RUN addgroup -g 65532 app && adduser -u 65532 -G app -S app
+RUN addgroup -g ${USERID} app && adduser -u ${USERID} -G app -S app
 
+# Copy compiled bin into final image
 COPY --from=builder /app/waitfor /usr/local/bin/waitfor
 
-USER 65532:65532
+# Set to nonroot user
+USER ${USERID}:${USERID}
 
 ENTRYPOINT ["waitfor"]
